@@ -19,26 +19,36 @@ const createBook = async function(req, res) {
     } else res.send({ msg: "Author and publisher Must be present" })
 }
 
-
-
-
-
-
-
-
-const getBooksData = async function(req, res) {
-    let books = await bookModel.find()
-    res.send({ data: books })
-}
-
 const getBooksWithAuthorDetails = async function(req, res) {
     let specificBook = await bookModel.find().populate('author').populate('publisher')
     res.send({ data: specificBook })
 
 }
 
+const updateBookData = async function(req, res) {
+
+    let check = await publisherModel.find({
+        $nd: [{ name: { eq: "HarperCollin" } }, { name: { $eq: "Penguin" } }]
+    }).select({ _id: 1 })
+    let check1 = null
+    for (let i = 0; i < check.length; i++) {
+        check1 = check[i]._id
+        let specificBook = await bookModel.updateMany({ publisher: check1 }, { $set: { isHardcover: true } })
+        res.send({ msg: specificBook })
+    }
+
+
+}
+
+const updateBookPrice = async function(req, res) {
+    let check = await authorModel.find({ rating: { $gte: 3.5 } }).select('_id')
+    let updatePrice = await bookModel.updateMany({ author: check }, { $inc: { price: 10 } }, { new: true, upsert: true })
+    res.send({ msg: updatePrice })
+
+}
 
 
 module.exports.createBook = createBook
-module.exports.getBooksData = getBooksData
 module.exports.getBooksWithAuthorDetails = getBooksWithAuthorDetails
+module.exports.updateBookData = updateBookData
+module.exports.updateBookPrice = updateBookPrice
