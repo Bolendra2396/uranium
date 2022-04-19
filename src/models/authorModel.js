@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
-const ObjectId = mongoose.Schema.Types.ObjectId
+// const mongoose = require('mongoose');
+// const ObjectId = mongoose.Schema.Types.ObjectId
 
-const authorSchema = new mongoose.Schema({
-    authorName: String,
-    age: Number,
-    address: String,
-    rating: Number
+// const authorSchema = new mongoose.Schema({
+//     authorName: String,
+//     age: Number,
+//     address: String,
+//     rating: Number
 
-}, { timestamps: true });
+// }, { timestamps: true });
 
-module.exports = mongoose.model('NewAuthor(14thApril)', authorSchema)
+// module.exports = mongoose.model('NewAuthor(14thApril)', authorSchema)

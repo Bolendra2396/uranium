@@ -1,11 +1,11 @@
-const { default: mongoose } = require("mongoose")
-const publisherModel = require("../models/publisherModel")
-const authorModel = require("../models/publisherModel")
+// const { default: mongoose } = require("mongoose")
+// const publisherModel = require("../models/publisherModel")
+// const authorModel = require("../models/publisherModel")
 
-const createPublisher = async function(req, res) {
-    let publisher = req.body
-    let publisherCreated = await publisherModel.create(publisher)
-    res.send({ data: publisherCreated })
-}
+// const createPublisher = async function(req, res) {
+//     let publisher = req.body
+//     let publisherCreated = await publisherModel.create(publisher)
+//     res.send({ data: publisherCreated })
+// }
 
-module.exports.createPublisher = createPublisher
+// module.exports.createPublisher = createPublisher
