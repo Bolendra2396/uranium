@@ -10,7 +10,7 @@ const authToken = function(req, res, next) {
 
     console.log(token);
 
-    let decodedToken = jwt.verify(token, "functionup-thorium");
+    let decodedToken = jwt.verify(token, "functionup-uranium");
     if (!decodedToken)
         return res.send({ status: false, msg: "token is invalid" });
     else {
@@ -18,8 +18,6 @@ const authToken = function(req, res, next) {
     }
 
 }
-
-
 const userExist = async function(req, res, next) {
 
     let userId = req.params.userId;
