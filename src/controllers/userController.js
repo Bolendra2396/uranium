@@ -2,6 +2,30 @@ const { status } = require("express/lib/response");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
+const postMessage = async function(req, res) {
+    // try
+    try {
+        let message = req.body.message
+        let token = req.headers["x-auth-token"]
+        let decodedToken = jwt.verify(token, 'functionup-uranium')
+        let userToBeModified = req.params.userId
+        let userLoggedIn = decodedToken.userId
+        if (userToBeModified != userLoggedIn) {
+            return res.send({ status: false, msg: "you are not allowd" })
+        }
+        let user = await userModel.findById(req.params.userId)
+        if (!user) {
+            return res.status(400).send({ status: false, msg: 'No such user exists' })
+        }
+        let updatedPosts = user.posts
+        updatedPosts.IsUpdate(message)
+        let updatedUser = await userModel.findOneAndUpdate({ _id: user._id }, { posts: updatedPosts }, { new: true })
+        return res.status(201).send({ status: true, data: updateUser })
+            // catch
+    } catch (err) {
+        res.status(500).send({ msg: "internal error", error: err.message })
+    }
+};
 const createUser = async function(req, res) {
     // try
     try {
@@ -35,7 +59,7 @@ const loginUser = async function(req, res) {
                 batch: "Uranium",
                 organisation: "FUnctionUp",
             },
-            "functionup-thorium"
+            "functionup-uranium"
         );
         res.setHeader("x-auth-token", token);
         res.status(201).send({ status: true, data: token });
@@ -89,4 +113,5 @@ module.exports.createUser = createUser;
 module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
-module.exports.deleteUser = deleteUser
+module.exports.deleteUser = deleteUser;
+module.exports.postMessage = postMessage;
